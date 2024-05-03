@@ -1,6 +1,6 @@
 package br.com.fiap
 
-import br.com.fiap.plugins.*
+import br.com.fiap.postech.payment_service.plugins.configureRouting
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*

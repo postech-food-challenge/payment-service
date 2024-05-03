@@ -1,4 +1,4 @@
-package br.com.fiap.plugins
+package br.com.fiap.postech.payment_service.plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
