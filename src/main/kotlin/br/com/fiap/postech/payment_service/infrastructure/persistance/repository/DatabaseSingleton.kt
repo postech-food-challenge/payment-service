@@ -1,6 +1,6 @@
 package br.com.fiap.postech.payment_service.infrastructure.persistance.repository
 
-import br.com.fiap.postech.payment_service.infrastructure.persistance.entity.Payments
+import br.com.fiap.postech.payment_service.infrastructure.persistance.entity.PaymentEntity
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -16,7 +16,7 @@ object DatabaseSingleton {
         val database = Database.connect(jdbcURL, driverClassName, user, password)
 
         transaction(database) {
-            SchemaUtils.create(Payments)
+            SchemaUtils.create(PaymentEntity)
         }
     }
 

@@ -1,6 +1,7 @@
 package br.com.fiap.postech.payment_service.infrastructure.controller
 
-class PaymentRequest (
+data class PaymentRequest (
     val orderId: Long,
-    val paymentValidated: Boolean
+    val totalAmount: Int,
+    val description: String,
 )

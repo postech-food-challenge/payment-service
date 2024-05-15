@@ -15,13 +15,7 @@ fun main(args: Array<String>) {
 fun Application.module() {
     DatabaseSingleton.init()
 
-    val repository: PaymentRepository = PaymentRepositoryImpl().apply {
-        runBlocking {
-            if(allPayments().isEmpty()) {
-                addNewPayment(12, "ableble")
-            }
-        }
-    }
+    val repository: PaymentRepository = PaymentRepositoryImpl()
     configureSerialization()
-    configurePaymentController(repository)
+    configurePaymentController()
 }
