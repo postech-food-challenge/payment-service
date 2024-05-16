@@ -9,7 +9,7 @@ object PaymentEntity : Table() {
     val totalAmount = integer("total_amount")
     val description = varchar("description", 2048).nullable()
     val qrCode =  varchar("qrCode", 2048)
-    val paymentStatus = varchar("status", 20)
+    val paymentValidated = bool("payment_validated")
     val createdAt = timestamp("created_at")
     val expireAt = timestamp("expire_at")
     val lastModified = timestamp("last_modified")

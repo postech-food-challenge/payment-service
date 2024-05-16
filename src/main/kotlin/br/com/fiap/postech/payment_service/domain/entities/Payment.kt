@@ -9,19 +9,8 @@ data class Payment(
     val totalAmount: Int,
     val description: String? = null,
     val qrCode: String,
-    val paymentStatus: PaymentStatus,
+    var paymentValidated: Boolean,
     val createdAt: Instant = Instant.now(),
     val expireAt: Instant = Instant.now().plus(2, ChronoUnit.HOURS),
     val lastModified: Instant = Instant.now(),
 )
-
-enum class PaymentStatus {
-    PENDING, CONFIRMED, CANCELED, EXPIRED;
-
-    companion object {
-        fun validateStatus(status: String): PaymentStatus {
-            return enumValues<PaymentStatus>().find { it.name == status }
-                ?: throw Exception("Invalid status: $status")
-        }
-    }
-}
