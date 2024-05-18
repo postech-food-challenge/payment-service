@@ -1,6 +1,7 @@
 package br.com.fiap.postech.payment_service.infrastructure.persistance.repository
 
 import br.com.fiap.postech.payment_service.domain.entities.Payment
+import br.com.fiap.postech.payment_service.domain.entities.PaymentStatus
 import br.com.fiap.postech.payment_service.infrastructure.persistance.entity.PaymentEntity
 import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.DatabaseSingleton.dbQuery
 import org.jetbrains.exposed.sql.*
@@ -12,7 +13,7 @@ class PaymentRepositoryImpl: PaymentRepository{
         orderId = row[PaymentEntity.orderId],
         totalAmount = row[PaymentEntity.totalAmount],
         description = row[PaymentEntity.description],
-        paymentValidated = row[PaymentEntity.paymentValidated],
+        paymentStatus = PaymentStatus.validateStatus(row[PaymentEntity.paymentStatus]),
         qrCode = row[PaymentEntity.qrCode],
         createdAt = row[PaymentEntity.createdAt],
         lastModified = row[PaymentEntity.lastModified],
@@ -28,7 +29,7 @@ class PaymentRepositoryImpl: PaymentRepository{
             it[totalAmount] = payment.totalAmount
             it[description] = payment.description
             it[qrCode] = payment.qrCode
-            it[paymentValidated] = payment.paymentValidated
+            it[paymentStatus] = payment.paymentStatus.name
             it[createdAt] = payment.createdAt
             it[expireAt] = payment.expireAt
             it[lastModified] = payment.lastModified
@@ -55,10 +56,10 @@ class PaymentRepositoryImpl: PaymentRepository{
             .singleOrNull()
     }
 
-    override suspend fun updatePaymentStatusByOrderId(orderId: Long, paymentValidated: Boolean): Boolean = dbQuery {
+    override suspend fun updatePaymentStatusByOrderId(orderId: Long, paymentStatus: PaymentStatus): Boolean = dbQuery {
         PaymentEntity
             .update ({PaymentEntity.orderId eq orderId }) {
-                it[PaymentEntity.paymentValidated] = paymentValidated
+                it[PaymentEntity.paymentStatus] = paymentStatus.name
             } > 0
     }
 }

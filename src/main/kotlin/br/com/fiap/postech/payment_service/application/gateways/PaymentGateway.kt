@@ -1,6 +1,7 @@
 package br.com.fiap.postech.payment_service.application.gateways
 
 import br.com.fiap.postech.payment_service.domain.entities.Payment
+import br.com.fiap.postech.payment_service.domain.entities.PaymentStatus
 
 interface PaymentGateway {
     suspend fun save(payment: Payment): Payment?
@@ -11,5 +12,5 @@ interface PaymentGateway {
 
     suspend fun findPaymentListByOrderId(orderId: Long): List<Payment>
     suspend fun findPaymentByOrderId(orderId: Long): Payment?
-    suspend fun updatePaymentStatusByOrderId(orderId: Long, paymentValidated: Boolean): Boolean
+    suspend fun updatePaymentStatusByOrderId(orderId: Long, paymentStatus: PaymentStatus): Boolean
 }
