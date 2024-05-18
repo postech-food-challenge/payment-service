@@ -19,9 +19,10 @@ class CreatePaymentInteract(
             orderId = paymentRequest.orderId,
             totalAmount = paymentRequest.totalAmount,
             description = paymentRequest.description,
-            qrCode = mercadoPagoResponse.qrData
+            qrData = mercadoPagoResponse.qrData
         )
         paymentGateway.save(payment)
-        return CreatePaymentResponse(paymentRequest.totalAmount, mercadoPagoResponse.qrData, mercadoPagoResponse.inStoreOrderId)
+
+        return CreatePaymentResponse(payment.totalAmount, payment.qrData, payment.orderId)
     }
 }

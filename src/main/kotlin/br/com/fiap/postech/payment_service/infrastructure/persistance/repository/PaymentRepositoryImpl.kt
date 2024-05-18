@@ -5,6 +5,7 @@ import br.com.fiap.postech.payment_service.domain.entities.PaymentStatus
 import br.com.fiap.postech.payment_service.infrastructure.persistance.entity.PaymentEntity
 import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.DatabaseSingleton.dbQuery
 import org.jetbrains.exposed.sql.*
+import java.time.Instant
 
 class PaymentRepositoryImpl: PaymentRepository{
 
@@ -14,10 +15,9 @@ class PaymentRepositoryImpl: PaymentRepository{
         totalAmount = row[PaymentEntity.totalAmount],
         description = row[PaymentEntity.description],
         paymentStatus = PaymentStatus.validateStatus(row[PaymentEntity.paymentStatus]),
-        qrCode = row[PaymentEntity.qrCode],
+        qrData = row[PaymentEntity.qrCode],
         createdAt = row[PaymentEntity.createdAt],
         lastModified = row[PaymentEntity.lastModified],
-        expireAt = row[PaymentEntity.expireAt],
     )
     override suspend fun allPayments(): List<Payment> = dbQuery {
         PaymentEntity.selectAll().map(::resultRowToPayment)
@@ -28,10 +28,9 @@ class PaymentRepositoryImpl: PaymentRepository{
             it[orderId] = payment.orderId
             it[totalAmount] = payment.totalAmount
             it[description] = payment.description
-            it[qrCode] = payment.qrCode
+            it[qrCode] = payment.qrData
             it[paymentStatus] = payment.paymentStatus.name
             it[createdAt] = payment.createdAt
-            it[expireAt] = payment.expireAt
             it[lastModified] = payment.lastModified
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToPayment)
@@ -60,6 +59,7 @@ class PaymentRepositoryImpl: PaymentRepository{
         PaymentEntity
             .update ({PaymentEntity.orderId eq orderId }) {
                 it[PaymentEntity.paymentStatus] = paymentStatus.name
+                it[lastModified] = Instant.now()
             } > 0
     }
 }

@@ -11,7 +11,6 @@ object PaymentEntity : Table() {
     val qrCode =  varchar("qrCode", 2048)
     val paymentStatus = varchar("payment_status", 10)
     val createdAt = timestamp("created_at")
-    val expireAt = timestamp("expire_at")
     val lastModified = timestamp("last_modified")
 
     override val primaryKey = PrimaryKey(paymentId)

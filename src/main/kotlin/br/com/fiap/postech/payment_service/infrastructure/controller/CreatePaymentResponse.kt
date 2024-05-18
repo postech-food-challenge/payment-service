@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class CreatePaymentResponse (
     val price: Int,
     val qrData: String,
-    val orderId: String
+    val orderId: Long
 )
