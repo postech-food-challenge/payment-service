@@ -66,7 +66,7 @@ jobs:
 
         run: |
           # Navigate to the directory containing the Kubernetes manifests
-          cd k8s/app
+          cd k8s
 
           # Substitute environment variables in ConfigMap and apply it
           envsubst < configmap.yaml | kubectl apply -f -
