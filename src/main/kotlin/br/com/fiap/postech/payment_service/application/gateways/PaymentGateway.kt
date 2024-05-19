@@ -12,5 +12,5 @@ interface PaymentGateway {
 
     suspend fun findPaymentListByOrderId(orderId: Long): List<Payment>
     suspend fun findPaymentByOrderId(orderId: Long): Payment?
-    suspend fun updatePaymentStatusByOrderId(orderId: Long, paymentStatus: PaymentStatus): Boolean
+    suspend fun updatePaymentStatus(paymentId: Long, paymentStatus: PaymentStatus): Payment
 }

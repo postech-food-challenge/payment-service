@@ -55,11 +55,15 @@ class PaymentRepositoryImpl: PaymentRepository{
             .singleOrNull()
     }
 
-    override suspend fun updatePaymentStatusByOrderId(orderId: Long, paymentStatus: PaymentStatus): Boolean = dbQuery {
-        PaymentEntity
-            .update ({PaymentEntity.orderId eq orderId }) {
+    override suspend fun updatePayment(paymentId: Long, paymentStatus: PaymentStatus): Payment? = dbQuery {
+        var updated = PaymentEntity
+            .update ({PaymentEntity.paymentId eq paymentId }) {
                 it[PaymentEntity.paymentStatus] = paymentStatus.name
-                it[lastModified] = Instant.now()
+                it[lastModified] = Instant.now().toString()
             } > 0
+        if(updated)
+            findPayment(paymentId)
+        else
+            null
     }
 }

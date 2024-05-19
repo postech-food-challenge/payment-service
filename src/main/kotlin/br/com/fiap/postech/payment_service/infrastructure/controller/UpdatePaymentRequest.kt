@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class UpdatePaymentRequest(
-    val orderId: Long,
+    val paymentId: Long,
     val paymentValidated: Boolean
 )

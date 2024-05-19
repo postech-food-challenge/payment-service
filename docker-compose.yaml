@@ -9,10 +9,10 @@ services:
       POSTGRES_USER: root
       POSTGRES_DB: database
       POSTGRES_PASSWORD: root
-  app:
-    depends_on: [ db ]
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+#  app:
+#    depends_on: [ db ]
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:8080"

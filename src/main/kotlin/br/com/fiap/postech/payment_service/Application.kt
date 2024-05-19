@@ -9,7 +9,11 @@ import br.com.fiap.postech.payment_service.infrastructure.persistance.repository
 import br.com.fiap.postech.payment_service.plugins.configureSerialization
 import br.com.fiap.postech.payment_service.infrastructure.controller.configurePaymentController
 import br.com.fiap.postech.payment_service.infrastructure.gateways.MercadoPagoClientGateway
+import br.com.fiap.postech.payment_service.infrastructure.gateways.OrderServiceClientGateway
 import br.com.fiap.postech.payment_service.infrastructure.gateways.PaymentRepositoryGateway
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.logging.*
 import io.ktor.server.application.*
 import kotlinx.coroutines.runBlocking
 
@@ -18,13 +22,20 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    DatabaseSingleton.init()
+    val client = HttpClient(CIO) {
+        install(Logging) {
+            level = LogLevel.INFO
+        }
+    }
+    val orderServiceURL = environment.config.property("order_service.host").getString()
+    DatabaseSingleton.init(environment.config)
 
     val mercadoPagoGateway = MercadoPagoClientGateway()
-    val paymentRepository: PaymentRepository = PaymentRepositoryImpl()
+    val paymentRepository = PaymentRepositoryImpl()
     val paymentGateway = PaymentRepositoryGateway(paymentRepository)
     val createPaymentInteract = CreatePaymentInteract(mercadoPagoGateway, paymentGateway)
-    val updateGatewayInteract = UpdatePaymentInteract(paymentGateway)
+    val orderServiceGateway = OrderServiceClientGateway(client, orderServiceURL)
+    val updateGatewayInteract = UpdatePaymentInteract(paymentGateway, orderServiceGateway)
 
     configureSerialization()
     configurePaymentController(createPaymentInteract, updateGatewayInteract)
