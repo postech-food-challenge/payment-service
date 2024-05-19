@@ -1,6 +1,6 @@
 package br.com.fiap.postech.payment_service.domain.entities
 
-import br.com.fiap.postech.payment_service.plugins.utils.UUIDSerializer
+import br.com.fiap.postech.payment_service.configuration.utils.UUIDSerializer
 import kotlinx.serialization.Serializable
 import java.security.InvalidParameterException
 import java.time.Instant

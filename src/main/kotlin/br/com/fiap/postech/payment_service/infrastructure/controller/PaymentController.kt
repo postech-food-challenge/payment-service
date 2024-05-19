@@ -7,11 +7,12 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import org.koin.ktor.ext.inject
 
-fun Application.configurePaymentController(
-    createPaymentInteract: CreatePaymentInteract,
-    updatePaymentInteract: UpdatePaymentInteract
-) {
+fun Application.configurePaymentController() {
+    val createPaymentInteract: CreatePaymentInteract by inject()
+    val updatePaymentInteract: UpdatePaymentInteract by inject()
+
     routing {
         route("/v1/payment") {
             put("/webhook"){
