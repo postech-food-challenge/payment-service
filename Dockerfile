@@ -1,4 +1,4 @@
-FROM gradle:8.7.0 AS build
+FROM gradle:8.4 AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle clean build --debug
