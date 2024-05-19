@@ -46,5 +46,4 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
-    implementation("app.softwork:kotlinx-uuid-core")
 }
