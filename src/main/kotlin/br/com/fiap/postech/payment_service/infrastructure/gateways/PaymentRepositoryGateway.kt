@@ -5,24 +5,13 @@ import br.com.fiap.postech.payment_service.domain.entities.Payment
 import br.com.fiap.postech.payment_service.domain.entities.PaymentStatus
 import br.com.fiap.postech.payment_service.domain.exceptions.PaymentNotFoundException
 import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.PaymentRepository
+import java.util.UUID
 
 class PaymentRepositoryGateway(
     private val paymentRepository: PaymentRepository
 ): PaymentGateway {
     override suspend fun save(payment: Payment): Payment? =
         paymentRepository.createPayment(payment)
-
-    override suspend fun findAll(): List<Payment> =
-        paymentRepository.allPayments()
-
-    override suspend fun findPaymentListByOrderId(orderId: Long): List<Payment> =
-        paymentRepository.findPaymentListByOrderId(orderId)
-
-    override suspend fun findPaymentByOrderId(orderId: Long): Payment? =
-        paymentRepository.findPaymentByOrderId(orderId)
-
-    override suspend fun findById(paymentId: Long): Payment? =
-        paymentRepository.findPayment(paymentId)
 
     override suspend fun updatePaymentStatus(paymentId: Long, paymentStatus: PaymentStatus): Payment {
         return paymentRepository.updatePayment(paymentId, paymentStatus) ?:

@@ -6,6 +6,7 @@ import br.com.fiap.postech.payment_service.infrastructure.persistance.entity.Pay
 import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.DatabaseSingleton.dbQuery
 import org.jetbrains.exposed.sql.*
 import java.time.Instant
+import java.util.UUID
 
 class PaymentRepositoryImpl: PaymentRepository{
 
@@ -19,10 +20,6 @@ class PaymentRepositoryImpl: PaymentRepository{
         createdAt = row[PaymentEntity.createdAt],
         lastModified = row[PaymentEntity.lastModified],
     )
-    override suspend fun allPayments(): List<Payment> = dbQuery {
-        PaymentEntity.selectAll().map(::resultRowToPayment)
-    }
-
     override suspend fun createPayment(payment: Payment): Payment? = dbQuery {
         val insertStatement = PaymentEntity.insert {
             it[orderId] = payment.orderId
@@ -38,19 +35,6 @@ class PaymentRepositoryImpl: PaymentRepository{
     override suspend fun findPayment(paymentId: Long): Payment? = dbQuery {
         PaymentEntity
             .select { PaymentEntity.paymentId eq paymentId }
-            .map(::resultRowToPayment)
-            .singleOrNull()
-    }
-
-    override suspend fun findPaymentListByOrderId(orderId: Long): List<Payment> = dbQuery {
-        PaymentEntity
-            .select { PaymentEntity.orderId eq orderId }
-            .map(::resultRowToPayment)
-    }
-
-    override suspend fun findPaymentByOrderId(orderId: Long): Payment? = dbQuery {
-        PaymentEntity
-            .select { PaymentEntity.orderId eq orderId }
             .map(::resultRowToPayment)
             .singleOrNull()
     }
