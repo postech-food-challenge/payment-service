@@ -34,7 +34,7 @@ repositories {
 
 sonar {
     properties {
-        property("sonar.projectKey", "postech-food-challenge_food-challenge")
+        property("sonar.projectKey", "postech-food-challenge_payment-service")
         property("sonar.organization", "postech-food-challenge")
         property("sonar.host.url", "https://sonarcloud.io")
     }
