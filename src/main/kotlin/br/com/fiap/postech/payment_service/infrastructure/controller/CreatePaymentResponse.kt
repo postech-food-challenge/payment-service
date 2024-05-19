@@ -1,6 +1,6 @@
 package br.com.fiap.postech.payment_service.infrastructure.controller
 
-import br.com.fiap.postech.payment_service.domain.entities.UUIDSerializer
+import br.com.fiap.postech.payment_service.plugins.utils.UUIDSerializer
 import kotlinx.serialization.Serializable
 import java.util.UUID
 

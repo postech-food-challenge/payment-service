@@ -1,11 +1,7 @@
 package br.com.fiap.postech.payment_service.domain.entities
 
-import kotlinx.serialization.KSerializer
+import br.com.fiap.postech.payment_service.plugins.utils.UUIDSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 import java.security.InvalidParameterException
 import java.time.Instant
 import java.util.UUID
@@ -32,17 +28,5 @@ enum class PaymentStatus {
             return enumValues<PaymentStatus>().find { it.name == status }
                 ?: throw InvalidParameterException("Invalid status: $status")
         }
-    }
-}
-
-object UUIDSerializer : KSerializer<UUID> {
-    override val descriptor = PrimitiveSerialDescriptor("UUID", PrimitiveKind.STRING)
-
-    override fun deserialize(decoder: Decoder): UUID {
-        return UUID.fromString(decoder.decodeString())
-    }
-
-    override fun serialize(encoder: Encoder, value: UUID) {
-        encoder.encodeString(value.toString())
     }
 }
