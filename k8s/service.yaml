@@ -4,6 +4,7 @@ metadata:
   name: payment-service
   labels:
     app: payment-service
+  namespace: payment-service
 spec:
   selector:
     app: payment-service
