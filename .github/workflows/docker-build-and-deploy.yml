@@ -67,21 +67,18 @@ jobs:
         run: |
           # Navigate to the directory containing the Kubernetes manifests
           cd k8s
-
+          
+          # Create namespace first
+          kubectl apply -f namespace.yaml
+          
           # Substitute environment variables in ConfigMap and apply it
           envsubst < configmap.yaml | kubectl apply -f -
-
+          
           # Apply the Service (assuming no variables substitution is needed)
           kubectl apply -f service.yaml
-
-          # Wait for the service to become available (if necessary)
-          # kubectl wait --for=condition=available --timeout=60s service/my-service
-          
-          # Create namepace
-          envsubst < namespace.yaml | kubectl apply -f -
           
           # Substitute environment variables in Deployment and apply it
           envsubst < deployment.yaml | kubectl apply -f -
-
+          
           # Finally, apply the Horizontal Pod Autoscaler
           kubectl apply -f hpa.yaml
