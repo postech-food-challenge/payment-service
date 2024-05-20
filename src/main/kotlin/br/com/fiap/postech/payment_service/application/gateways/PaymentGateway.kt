@@ -6,6 +6,5 @@ import java.util.UUID
 
 interface PaymentGateway {
     suspend fun save(payment: Payment): Payment?
-
     suspend fun updatePaymentStatus(paymentId: Long, paymentStatus: PaymentStatus): Payment
 }
