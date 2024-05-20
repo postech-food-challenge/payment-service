@@ -11,6 +11,7 @@ plugins {
     id("io.ktor.plugin") version "2.3.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
     id("org.sonarqube") version "4.4.1.3373"
+    id("jacoco")
 }
 
 group = "br.com.fiap.postech.payment_service"
@@ -38,7 +39,12 @@ sonar {
         property("sonar.projectKey", "postech-food-challenge_payment-service")
         property("sonar.organization", "postech-food-challenge")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml")
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -59,5 +65,37 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+}
 
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "br/com/fiap/postech/payment_service/domain/**",
+                    "br/com/fiap/postech/payment_service/configuration/**",
+                    "br/com/fiap/postech/payment_service/infrastructure/**"
+                )
+            }
+        })
+    )
 }
