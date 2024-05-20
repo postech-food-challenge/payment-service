@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: payment-service-configmap
-  namespace: payment-service
+  namespace: tech-challenge
   labels:
     app: payment-service
 data:

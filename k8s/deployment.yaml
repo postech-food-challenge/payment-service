@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment-service
-  namespace: payment-service
+  namespace: tech-challenge
   labels:
     app: payment-service
 spec:

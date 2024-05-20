@@ -4,7 +4,7 @@ metadata:
   name: payment-service
   labels:
     app: payment-service
-  namespace: payment-service
+  namespace: tech-challenge
 spec:
   selector:
     app: payment-service
