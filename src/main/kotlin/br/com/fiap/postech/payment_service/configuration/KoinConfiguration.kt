@@ -1,6 +1,8 @@
 package br.com.fiap.postech.payment_service.configuration
 
 import br.com.fiap.postech.payment_service.application.gateways.MercadoPagoGateway
+import br.com.fiap.postech.payment_service.application.gateways.OrderServiceGateway
+import br.com.fiap.postech.payment_service.application.gateways.PaymentGateway
 import br.com.fiap.postech.payment_service.application.usecases.CreatePaymentInteract
 import br.com.fiap.postech.payment_service.application.usecases.UpdatePaymentInteract
 import br.com.fiap.postech.payment_service.infrastructure.gateways.MercadoPagoClientGateway
@@ -35,8 +37,8 @@ private fun module(orderServiceURL: String) = module {
     single<HttpClient> { client }
     single<MercadoPagoGateway> { MercadoPagoClientGateway() }
     single<PaymentRepository> { PaymentRepositoryImpl() }
-    single { PaymentRepositoryGateway(get()) }
+    single<PaymentGateway> { PaymentRepositoryGateway(get()) }
+    single<OrderServiceGateway> { OrderServiceClientGateway(get(), orderServiceURL) }
     single { CreatePaymentInteract(get(), get()) }
-    single { OrderServiceClientGateway(get(), orderServiceURL) }
     single { UpdatePaymentInteract(get(), get()) }
 }
