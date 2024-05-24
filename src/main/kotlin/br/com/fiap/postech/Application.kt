@@ -5,9 +5,10 @@ import br.com.fiap.postech.payment_service.configuration.configureSerialization
 import br.com.fiap.postech.payment_service.infrastructure.controller.configurePaymentController
 import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.DatabaseSingleton
 import io.ktor.server.application.*
+import io.ktor.server.netty.*
 
 fun main(args: Array<String>) {
-    io.ktor.server.netty.EngineMain.main(args)
+    EngineMain.main(args)
 }
 
 fun Application.module() {
