@@ -1,14 +1,16 @@
-package br.com.fiap.postech.payment_service.infrastructure.persistance.repository
+package br.com.fiap.postech.infrastructure.persistance.repository
 
-import br.com.fiap.postech.payment_service.domain.entities.Payment
-import br.com.fiap.postech.payment_service.domain.entities.PaymentStatus
-import br.com.fiap.postech.payment_service.infrastructure.persistance.entity.PaymentEntity
-import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.DatabaseSingleton.dbQuery
-import org.jetbrains.exposed.sql.*
+import br.com.fiap.postech.domain.entities.Payment
+import br.com.fiap.postech.domain.entities.PaymentStatus
+import br.com.fiap.postech.infrastructure.persistance.entity.PaymentEntity
+import br.com.fiap.postech.infrastructure.persistance.repository.DatabaseSingleton.dbQuery
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.update
 import java.time.Instant
-import java.util.UUID
 
-class PaymentRepositoryImpl: PaymentRepository{
+class PaymentRepositoryImpl : PaymentRepository {
 
     private fun resultRowToPayment(row: ResultRow) = Payment(
         paymentId = row[PaymentEntity.paymentId],
@@ -20,6 +22,7 @@ class PaymentRepositoryImpl: PaymentRepository{
         createdAt = row[PaymentEntity.createdAt],
         lastModified = row[PaymentEntity.lastModified],
     )
+
     override suspend fun createPayment(payment: Payment): Payment? = dbQuery {
         val insertStatement = PaymentEntity.insert {
             it[orderId] = payment.orderId
@@ -32,6 +35,7 @@ class PaymentRepositoryImpl: PaymentRepository{
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToPayment)
     }
+
     override suspend fun findPayment(paymentId: Long): Payment? = dbQuery {
         PaymentEntity
             .select { PaymentEntity.paymentId eq paymentId }
@@ -41,11 +45,11 @@ class PaymentRepositoryImpl: PaymentRepository{
 
     override suspend fun updatePayment(paymentId: Long, paymentStatus: PaymentStatus): Payment? = dbQuery {
         var updated = PaymentEntity
-            .update ({PaymentEntity.paymentId eq paymentId }) {
+            .update({ PaymentEntity.paymentId eq paymentId }) {
                 it[PaymentEntity.paymentStatus] = paymentStatus.name
                 it[lastModified] = Instant.now().toString()
             } > 0
-        if(updated)
+        if (updated)
             findPayment(paymentId)
         else
             null

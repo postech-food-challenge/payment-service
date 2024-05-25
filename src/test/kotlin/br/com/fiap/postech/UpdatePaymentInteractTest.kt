@@ -1,16 +1,19 @@
-package br.com.fiap.postech.payment_service
+package br.com.fiap.postech
 
-import br.com.fiap.postech.payment_service.application.gateways.OrderServiceGateway
-import br.com.fiap.postech.payment_service.application.gateways.PaymentGateway
-import br.com.fiap.postech.payment_service.application.usecases.UpdatePaymentInteract
-import br.com.fiap.postech.payment_service.domain.entities.Payment
-import br.com.fiap.postech.payment_service.domain.entities.PaymentStatus
-import br.com.fiap.postech.payment_service.infrastructure.controller.UpdatePaymentRequest
+import br.com.fiap.postech.application.gateways.OrderServiceGateway
+import br.com.fiap.postech.application.gateways.PaymentGateway
+import br.com.fiap.postech.application.usecases.UpdatePaymentInteract
+import br.com.fiap.postech.domain.entities.Payment
+import br.com.fiap.postech.domain.entities.PaymentStatus
+import br.com.fiap.postech.infrastructure.controller.UpdatePaymentRequest
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.argumentCaptor
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import java.util.*
 
 class UpdatePaymentInteractTest {
@@ -46,10 +49,12 @@ class UpdatePaymentInteractTest {
 
             whenever(paymentGateway.updatePaymentStatus(any(), any())).thenReturn(payment)
 
-            whenever(orderServiceGateway.updatePaymentStatusOnOrderService(
-                orderIdCaptor.capture(),
-                paymentStatusCaptor.capture()
-            )).thenReturn(Unit)
+            whenever(
+                orderServiceGateway.updatePaymentStatusOnOrderService(
+                    orderIdCaptor.capture(),
+                    paymentStatusCaptor.capture()
+                )
+            ).thenReturn(Unit)
 
             updatePaymentInteract.updatePaymentStatusByOrderId(request)
 
@@ -79,10 +84,12 @@ class UpdatePaymentInteractTest {
 
             whenever(paymentGateway.updatePaymentStatus(any(), any())).thenReturn(payment)
 
-            whenever(orderServiceGateway.updatePaymentStatusOnOrderService(
-                orderIdCaptor.capture(),
-                paymentStatusCaptor.capture()
-            )).thenReturn(Unit)
+            whenever(
+                orderServiceGateway.updatePaymentStatusOnOrderService(
+                    orderIdCaptor.capture(),
+                    paymentStatusCaptor.capture()
+                )
+            ).thenReturn(Unit)
 
             updatePaymentInteract.updatePaymentStatusByOrderId(request)
 

@@ -1,4 +1,4 @@
-package br.com.fiap.postech.payment_service.infrastructure.persistance.entity
+package br.com.fiap.postech.infrastructure.persistance.entity
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.timestamp

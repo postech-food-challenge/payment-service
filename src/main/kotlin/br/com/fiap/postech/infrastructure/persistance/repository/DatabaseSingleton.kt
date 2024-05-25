@@ -1,6 +1,6 @@
-package br.com.fiap.postech.payment_service.infrastructure.persistance.repository
+package br.com.fiap.postech.infrastructure.persistance.repository
 
-import br.com.fiap.postech.payment_service.infrastructure.persistance.entity.PaymentEntity
+import br.com.fiap.postech.infrastructure.persistance.entity.PaymentEntity
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.config.*

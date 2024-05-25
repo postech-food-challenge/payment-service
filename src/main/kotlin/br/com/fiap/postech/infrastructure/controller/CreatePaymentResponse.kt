@@ -1,11 +1,11 @@
-package br.com.fiap.postech.payment_service.infrastructure.controller
+package br.com.fiap.postech.infrastructure.controller
 
-import br.com.fiap.postech.payment_service.configuration.utils.UUIDSerializer
+import br.com.fiap.postech.configuration.utils.UUIDSerializer
 import kotlinx.serialization.Serializable
-import java.util.UUID
+import java.util.*
 
 @Serializable
-data class CreatePaymentResponse (
+data class CreatePaymentResponse(
     val price: Int,
     val qrData: String,
     @Serializable(with = UUIDSerializer::class)

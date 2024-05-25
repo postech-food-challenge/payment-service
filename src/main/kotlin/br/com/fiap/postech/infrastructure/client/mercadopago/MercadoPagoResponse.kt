@@ -1,4 +1,4 @@
-package br.com.fiap.postech.payment_service.infrastructure.client.mercadopago
+package br.com.fiap.postech.infrastructure.client.mercadopago
 
 class MercadoPagoResponse(
     val qrData: String,

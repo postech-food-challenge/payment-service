@@ -1,3 +1,3 @@
-package br.com.fiap.postech.payment_service.domain.exceptions
+package br.com.fiap.postech.domain.exceptions
 
 class PaymentNotFoundException(msg: String): RuntimeException(msg)

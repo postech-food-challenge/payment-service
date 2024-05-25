@@ -1,7 +1,8 @@
-package br.com.fiap.postech.payment_service.infrastructure.controller
+package br.com.fiap.postech.infrastructure.controller
 
-import br.com.fiap.postech.payment_service.application.usecases.CreatePaymentInteract
-import br.com.fiap.postech.payment_service.application.usecases.UpdatePaymentInteract
+
+import br.com.fiap.postech.application.usecases.CreatePaymentInteract
+import br.com.fiap.postech.application.usecases.UpdatePaymentInteract
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -15,12 +16,12 @@ fun Application.configurePaymentController() {
 
     routing {
         route("/v1/payment") {
-            put("/webhook"){
+            put("/webhook") {
                 val paymentRequest = call.receive<UpdatePaymentRequest>()
                 updatePaymentInteract.updatePaymentStatusByOrderId(paymentRequest)
                 call.respond(HttpStatusCode.OK)
             }
-            post{
+            post {
                 val paymentRequest = call.receive<CreatePaymentRequest>()
                 val paymentResponse = createPaymentInteract.createPayment(paymentRequest)
                 call.respond(HttpStatusCode.Created, paymentResponse)

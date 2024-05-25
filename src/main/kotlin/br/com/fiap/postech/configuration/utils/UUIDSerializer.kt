@@ -1,4 +1,4 @@
-package br.com.fiap.postech.payment_service.configuration.utils
+package br.com.fiap.postech.configuration.utils
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

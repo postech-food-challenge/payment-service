@@ -1,20 +1,19 @@
-package br.com.fiap.postech.payment_service
+package br.com.fiap.postech
 
-import br.com.fiap.postech.payment_service.application.gateways.MercadoPagoGateway
-import br.com.fiap.postech.payment_service.application.gateways.PaymentGateway
-import br.com.fiap.postech.payment_service.application.usecases.CreatePaymentInteract
-import br.com.fiap.postech.payment_service.domain.entities.Payment
-import br.com.fiap.postech.payment_service.infrastructure.client.mercadopago.MercadoPagoResponse
-import br.com.fiap.postech.payment_service.infrastructure.controller.CreatePaymentRequest
+import br.com.fiap.postech.application.gateways.MercadoPagoGateway
+import br.com.fiap.postech.application.gateways.PaymentGateway
+import br.com.fiap.postech.application.usecases.CreatePaymentInteract
+import br.com.fiap.postech.domain.entities.Payment
+import br.com.fiap.postech.infrastructure.client.mercadopago.MercadoPagoResponse
+import br.com.fiap.postech.infrastructure.controller.CreatePaymentRequest
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
-import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import java.util.UUID
+import java.util.*
 
 class CreatePaymentInteractTest {
     lateinit var mercadoPago: MercadoPagoGateway
@@ -26,7 +25,7 @@ class CreatePaymentInteractTest {
     fun setUp() {
         mercadoPago = mock {}
         paymentGateway = mock {}
-        createPaymentInteract = CreatePaymentInteract(mercadoPago,paymentGateway)
+        createPaymentInteract = CreatePaymentInteract(mercadoPago, paymentGateway)
     }
 
     @Test

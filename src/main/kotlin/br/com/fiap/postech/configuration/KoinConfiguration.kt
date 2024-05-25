@@ -1,15 +1,15 @@
-package br.com.fiap.postech.payment_service.configuration
+package br.com.fiap.postech.configuration
 
-import br.com.fiap.postech.payment_service.application.gateways.MercadoPagoGateway
-import br.com.fiap.postech.payment_service.application.gateways.OrderServiceGateway
-import br.com.fiap.postech.payment_service.application.gateways.PaymentGateway
-import br.com.fiap.postech.payment_service.application.usecases.CreatePaymentInteract
-import br.com.fiap.postech.payment_service.application.usecases.UpdatePaymentInteract
-import br.com.fiap.postech.payment_service.infrastructure.gateways.MercadoPagoClientGateway
-import br.com.fiap.postech.payment_service.infrastructure.gateways.OrderServiceClientGateway
-import br.com.fiap.postech.payment_service.infrastructure.gateways.PaymentRepositoryGateway
-import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.PaymentRepository
-import br.com.fiap.postech.payment_service.infrastructure.persistance.repository.PaymentRepositoryImpl
+import br.com.fiap.postech.application.gateways.MercadoPagoGateway
+import br.com.fiap.postech.application.gateways.OrderServiceGateway
+import br.com.fiap.postech.application.gateways.PaymentGateway
+import br.com.fiap.postech.application.usecases.CreatePaymentInteract
+import br.com.fiap.postech.application.usecases.UpdatePaymentInteract
+import br.com.fiap.postech.infrastructure.gateways.MercadoPagoClientGateway
+import br.com.fiap.postech.infrastructure.gateways.OrderServiceClientGateway
+import br.com.fiap.postech.infrastructure.gateways.PaymentRepositoryGateway
+import br.com.fiap.postech.infrastructure.persistance.repository.PaymentRepository
+import br.com.fiap.postech.infrastructure.persistance.repository.PaymentRepositoryImpl
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.logging.*

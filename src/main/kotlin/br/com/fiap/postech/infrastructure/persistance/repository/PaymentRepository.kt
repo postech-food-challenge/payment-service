@@ -1,7 +1,8 @@
-package br.com.fiap.postech.payment_service.infrastructure.persistance.repository
+package br.com.fiap.postech.infrastructure.persistance.repository
 
-import br.com.fiap.postech.payment_service.domain.entities.Payment
-import br.com.fiap.postech.payment_service.domain.entities.PaymentStatus
+import br.com.fiap.postech.domain.entities.Payment
+import br.com.fiap.postech.domain.entities.PaymentStatus
+
 interface PaymentRepository {
     suspend fun createPayment(payment: Payment): Payment?
     suspend fun findPayment(paymentId: Long): Payment?
