@@ -18,16 +18,10 @@ group = "br.com.fiap.postech.payment_service"
 version = "0.0.1"
 
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("br.com.fiap.postech.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
-}
-
-ktor {
-    fatJar {
-        archiveFileName.set("payment-service.jar")
-    }
 }
 
 repositories {
@@ -39,12 +33,12 @@ sonar {
         property("sonar.projectKey", "postech-food-challenge_payment-service")
         property("sonar.organization", "postech-food-challenge")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.coverage.jacoco.xmlReportPaths", "${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+        property(
+            "sonar.coverage.exclusions",
+            "**/br/com/fiap/postech/domain/**,**/br/com/fiap/postech/configuration/**,**/br/com/fiap/postech/infrastucture/**"
+        )
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
 
 dependencies {
@@ -91,9 +85,9 @@ tasks.jacocoTestReport {
         files(classDirectories.files.map {
             fileTree(it) {
                 exclude(
-                    "br/com/fiap/postech/payment_service/domain/**",
-                    "br/com/fiap/postech/payment_service/configuration/**",
-                    "br/com/fiap/postech/payment_service/infrastructure/**"
+                    "**/br/com/fiap/postech/domain/**",
+                    "**/br/com/fiap/postech/configuration/**",
+                    "**/br/com/fiap/postech/infrastructure/**"
                 )
             }
         })
