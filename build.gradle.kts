@@ -14,7 +14,7 @@ plugins {
     id("jacoco")
 }
 
-group = "br.com.fiap.postech.payment_service"
+group = "br.com.fiap.postech"
 version = "0.0.1"
 
 application {
@@ -36,7 +36,7 @@ sonar {
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
         property(
             "sonar.coverage.exclusions",
-            "**/br/com/fiap/postech/domain/**,**/br/com/fiap/postech/configuration/**,**/br/com/fiap/postech/infrastucture/**"
+            "**/br/com/fiap/postech/domain/**,**/br/com/fiap/postech/configuration/**,**/br/com/fiap/postech/infrastructure/**"
         )
     }
 }
