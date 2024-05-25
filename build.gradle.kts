@@ -14,7 +14,7 @@ plugins {
     id("jacoco")
 }
 
-group = "br.com.fiap.postech.payment_service"
+group = "br.com.fiap.postech"
 version = "0.0.1"
 
 application {
