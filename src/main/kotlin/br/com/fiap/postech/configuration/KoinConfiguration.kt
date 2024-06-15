@@ -4,6 +4,7 @@ import br.com.fiap.postech.application.gateways.MercadoPagoGateway
 import br.com.fiap.postech.application.gateways.OrderServiceGateway
 import br.com.fiap.postech.application.gateways.PaymentGateway
 import br.com.fiap.postech.application.usecases.CreatePaymentInteract
+import br.com.fiap.postech.application.usecases.GetPaymentInteract
 import br.com.fiap.postech.application.usecases.UpdatePaymentInteract
 import br.com.fiap.postech.infrastructure.gateways.MercadoPagoClientGateway
 import br.com.fiap.postech.infrastructure.gateways.OrderServiceClientGateway
@@ -39,6 +40,7 @@ private fun module(orderServiceURL: String) = module {
     single<PaymentRepository> { PaymentRepositoryImpl() }
     single<PaymentGateway> { PaymentRepositoryGateway(get()) }
     single<OrderServiceGateway> { OrderServiceClientGateway(get(), orderServiceURL) }
+    single { GetPaymentInteract(get()) }
     single { CreatePaymentInteract(get(), get()) }
     single { UpdatePaymentInteract(get(), get()) }
 }

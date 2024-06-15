@@ -1,5 +1,6 @@
 package br.com.fiap.postech
 
+import br.com.fiap.postech.configuration.configureExceptionsResponse
 import br.com.fiap.postech.configuration.configureKoin
 import br.com.fiap.postech.configuration.configureSerialization
 import br.com.fiap.postech.infrastructure.controller.configurePaymentController
@@ -17,4 +18,5 @@ fun Application.module() {
     configureKoin(orderServiceURL)
     configureSerialization()
     configurePaymentController()
+    configureExceptionsResponse()
 }
