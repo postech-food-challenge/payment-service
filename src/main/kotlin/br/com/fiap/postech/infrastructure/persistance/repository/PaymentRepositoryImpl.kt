@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.update
 import java.time.Instant
+import java.util.UUID
 
 class PaymentRepositoryImpl : PaymentRepository {
 
@@ -54,4 +55,12 @@ class PaymentRepositoryImpl : PaymentRepository {
         else
             null
     }
+
+    override suspend fun findPaymentByOrderId(orderId: UUID): Payment? = dbQuery {
+        PaymentEntity
+            .select{ PaymentEntity.orderId eq orderId}
+            .map(::resultRowToPayment)
+            .singleOrNull()
+    }
+
 }
