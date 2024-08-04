@@ -41,7 +41,6 @@ class UpdatePaymentInteractTest {
 
             val request = UpdatePaymentRequest(paymentId, true)
             val dtoCaptor = argumentCaptor<PaymentStatusUpdateDTO>()
-            val paymentStatusCaptor = argumentCaptor<PaymentStatus>()
 
             val payment = Payment(
                 orderId = orderId,
@@ -74,8 +73,7 @@ class UpdatePaymentInteractTest {
             val paymentId = 1L
 
             val request = UpdatePaymentRequest(paymentId, false)
-            val orderIdCaptor = argumentCaptor<UUID>()
-            val paymentStatusCaptor = argumentCaptor<PaymentStatus>()
+            val dtoCaptor = argumentCaptor<PaymentStatusUpdateDTO>()
 
             val payment = Payment(
                 orderId = orderId,
@@ -87,15 +85,14 @@ class UpdatePaymentInteractTest {
 
             whenever(
                 sqsGateway.updatePaymentStatusOnOrderService(
-                    orderIdCaptor.capture(),
-                    paymentStatusCaptor.capture()
+                    dtoCaptor.capture()
                 )
             ).thenReturn(Unit)
 
             updatePaymentInteract.updatePaymentStatusByOrderId(request)
 
-            Assertions.assertEquals(orderId, orderIdCaptor.lastValue)
-            Assertions.assertEquals(PaymentStatus.PAYMENT_DENIED, paymentStatusCaptor.lastValue)
+            Assertions.assertEquals(orderId, dtoCaptor.lastValue.orderId)
+            Assertions.assertEquals(PaymentStatus.PAYMENT_DENIED.toString(), dtoCaptor.lastValue.status)
         }
 
     }
