@@ -7,17 +7,15 @@ class AwsConfiguration(
     val region: String,
     val baseUrl: String,
     val accessKey: String,
-    val secretAccessKey: String
+    val secretAccessKey: String,
+    val paymentStatusUpdateQueueUrl: String
 ) {
     constructor (config: ApplicationConfig) : this (
         config.property("aws.account").getString(),
         config.property("aws.region").getString(),
         config.property("aws.base_url").getString(),
         config.property("aws.access_key").getString(),
-        config.property("aws.secret_access_key").getString()
+        config.property("aws.secret_access_key").getString(),
+        config.property("aws.queue.payment_status_update_url").getString()
     )
-
-    fun getQueueUrl(queueName: String): String {
-        return "$baseUrl/$account/$queueName"
-    }
 }

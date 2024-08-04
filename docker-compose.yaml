@@ -30,3 +30,4 @@ services:
     environment:
       DB_HOST: "jdbc:postgresql://db:5432/database"
       AWS_BASE_URL: "http://localstack:4566"
+      PAYMENT_STATUS_UPDATED_QUEUE_URL: "http://localstack:4566/000000000000/payment-status-update"

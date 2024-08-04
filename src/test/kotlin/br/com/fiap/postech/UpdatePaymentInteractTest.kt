@@ -19,17 +19,15 @@ import java.util.*
 
 class UpdatePaymentInteractTest {
 
-    lateinit var orderServiceGateway: OrderServiceGateway
     lateinit var paymentGateway: PaymentGateway
     lateinit var updatePaymentInteract: UpdatePaymentInteract
     lateinit var sqsGateway: SqsGateway
 
     @BeforeEach
     fun setUp() {
-        orderServiceGateway = mock {}
         paymentGateway = mock {}
         sqsGateway = mock {}
-        updatePaymentInteract = UpdatePaymentInteract(paymentGateway, orderServiceGateway,  sqsGateway)
+        updatePaymentInteract = UpdatePaymentInteract(paymentGateway,  sqsGateway)
     }
 
     @Test
@@ -53,7 +51,7 @@ class UpdatePaymentInteractTest {
             whenever(paymentGateway.updatePaymentStatus(any(), any())).thenReturn(payment)
 
             whenever(
-                orderServiceGateway.updatePaymentStatusOnOrderService(
+                sqsGateway.updatePaymentStatusOnOrderService(
                     orderIdCaptor.capture(),
                     paymentStatusCaptor.capture()
                 )
@@ -88,7 +86,7 @@ class UpdatePaymentInteractTest {
             whenever(paymentGateway.updatePaymentStatus(any(), any())).thenReturn(payment)
 
             whenever(
-                orderServiceGateway.updatePaymentStatusOnOrderService(
+                sqsGateway.updatePaymentStatusOnOrderService(
                     orderIdCaptor.capture(),
                     paymentStatusCaptor.capture()
                 )

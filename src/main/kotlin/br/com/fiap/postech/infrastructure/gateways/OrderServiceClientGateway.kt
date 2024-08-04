@@ -11,8 +11,8 @@ class OrderServiceClientGateway(
     val orderServiceURL: String
 ) : OrderServiceGateway {
     override suspend fun updatePaymentStatusOnOrderService(orderId: UUID, paymentStatus: PaymentStatus) {
-//        client.patch("$orderServiceURL/v1/orders/$orderId") {
-//            setBody(mapOf("status" to paymentStatus.name))
-//        }
+        client.patch("$orderServiceURL/v1/orders/$orderId") {
+            setBody(mapOf("status" to paymentStatus.name))
+        }
     }
 }

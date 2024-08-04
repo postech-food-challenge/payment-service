@@ -12,13 +12,12 @@ import software.amazon.awssdk.services.sqs.model.ReceiveMessageRequest
 
 class PaymentStatusUpdateListener(
     private val sqsClient: SqsClient,
-    private val awsConfiguration: AwsConfiguration,
-    private val paymentStatusUpdateQueueName: String,
+    private val awsConfiguration: AwsConfiguration
 ) {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     fun startListening() {
-        val queueUrl = awsConfiguration.getQueueUrl(paymentStatusUpdateQueueName)
+        val queueUrl = awsConfiguration.paymentStatusUpdateQueueUrl
         scope.launch {
             while (isActive) {
                 try {

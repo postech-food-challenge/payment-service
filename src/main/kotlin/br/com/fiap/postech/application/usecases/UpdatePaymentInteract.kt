@@ -9,7 +9,6 @@ import software.amazon.awssdk.services.sqs.SqsClient
 
 class UpdatePaymentInteract(
     private val paymentGateway: PaymentGateway,
-    private val orderServiceGateway: OrderServiceGateway,
     private val sqsGateway: SqsGateway
 ) {
     suspend fun updatePaymentStatusByOrderId(updatePayment: UpdatePaymentRequest) {
@@ -19,6 +18,5 @@ class UpdatePaymentInteract(
 
         val result = paymentGateway.updatePaymentStatus(updatePayment.paymentId, status)
         sqsGateway.updatePaymentStatusOnOrderService(result.orderId, status)
-        orderServiceGateway.updatePaymentStatusOnOrderService(result.orderId, status)
     }
 }

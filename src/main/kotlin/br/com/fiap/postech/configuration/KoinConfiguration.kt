@@ -38,7 +38,6 @@ fun Application.configureKoin(
 private fun module(config: ApplicationConfig) = module {
 
     val orderServiceURL = config.property("order_service.host").getString()
-    val paymentUpdateQueue = config.property("aws.queue.payment_update").getString()
     val awsConfiguration = AwsConfiguration(config)
 
     single<SqsClient> {
@@ -63,12 +62,12 @@ private fun module(config: ApplicationConfig) = module {
         }
     }
 
-    single <SqsGateway> { SqsClientGateway(get(), awsConfiguration, paymentUpdateQueue) }
-    single { PaymentStatusUpdateListener(get(), awsConfiguration, paymentUpdateQueue) }
+    single <SqsGateway> { SqsClientGateway(get(), awsConfiguration) }
+    single { PaymentStatusUpdateListener(get(), awsConfiguration) }
     single<MercadoPagoGateway> { MercadoPagoClientGateway() }
     single<PaymentRepository> { PaymentRepositoryImpl() }
     single<PaymentGateway> { PaymentRepositoryGateway(get()) }
     single<OrderServiceGateway> { OrderServiceClientGateway(get(), orderServiceURL) }
     single { CreatePaymentInteract(get(), get()) }
-    single { UpdatePaymentInteract(get(), get(), get()) }
+    single { UpdatePaymentInteract(get(), get()) }
 }
