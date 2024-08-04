@@ -1,8 +1,7 @@
 package br.com.fiap.postech.application.gateways
 
-import br.com.fiap.postech.domain.entities.PaymentStatus
-import java.util.UUID
+import br.com.fiap.postech.infrastructure.gateways.dto.PaymentStatusUpdateDTO
 
 interface SqsGateway {
-    suspend fun updatePaymentStatusOnOrderService(orderId: UUID, paymentStatus: PaymentStatus)
+    suspend fun updatePaymentStatusOnOrderService(dto: PaymentStatusUpdateDTO)
 }
