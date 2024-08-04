@@ -2,10 +2,12 @@ package br.com.fiap.postech
 
 import br.com.fiap.postech.application.gateways.OrderServiceGateway
 import br.com.fiap.postech.application.gateways.PaymentGateway
+import br.com.fiap.postech.application.gateways.SqsGateway
 import br.com.fiap.postech.application.usecases.UpdatePaymentInteract
 import br.com.fiap.postech.domain.entities.Payment
 import br.com.fiap.postech.domain.entities.PaymentStatus
 import br.com.fiap.postech.infrastructure.controller.UpdatePaymentRequest
+import br.com.fiap.postech.infrastructure.gateways.dto.PaymentStatusUpdateDTO
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -18,15 +20,15 @@ import java.util.*
 
 class UpdatePaymentInteractTest {
 
-    lateinit var orderServiceGateway: OrderServiceGateway
     lateinit var paymentGateway: PaymentGateway
     lateinit var updatePaymentInteract: UpdatePaymentInteract
+    lateinit var sqsGateway: SqsGateway
 
     @BeforeEach
     fun setUp() {
-        orderServiceGateway = mock {}
         paymentGateway = mock {}
-        updatePaymentInteract = UpdatePaymentInteract(paymentGateway, orderServiceGateway)
+        sqsGateway = mock {}
+        updatePaymentInteract = UpdatePaymentInteract(paymentGateway,  sqsGateway)
     }
 
     @Test
@@ -38,8 +40,7 @@ class UpdatePaymentInteractTest {
             val paymentId = 1L
 
             val request = UpdatePaymentRequest(paymentId, true)
-            val orderIdCaptor = argumentCaptor<UUID>()
-            val paymentStatusCaptor = argumentCaptor<PaymentStatus>()
+            val dtoCaptor = argumentCaptor<PaymentStatusUpdateDTO>()
 
             val payment = Payment(
                 orderId = orderId,
@@ -50,16 +51,15 @@ class UpdatePaymentInteractTest {
             whenever(paymentGateway.updatePaymentStatus(any(), any())).thenReturn(payment)
 
             whenever(
-                orderServiceGateway.updatePaymentStatusOnOrderService(
-                    orderIdCaptor.capture(),
-                    paymentStatusCaptor.capture()
+                sqsGateway.updatePaymentStatusOnOrderService(
+                    dtoCaptor.capture()
                 )
             ).thenReturn(Unit)
 
             updatePaymentInteract.updatePaymentStatusByOrderId(request)
 
-            Assertions.assertEquals(orderId, orderIdCaptor.lastValue)
-            Assertions.assertEquals(PaymentStatus.PAYMENT_CONFIRMED, paymentStatusCaptor.lastValue)
+            Assertions.assertEquals(orderId, dtoCaptor.lastValue.orderId)
+            Assertions.assertEquals(PaymentStatus.PAYMENT_CONFIRMED.toString(), dtoCaptor.lastValue.status)
         }
 
     }
@@ -73,8 +73,7 @@ class UpdatePaymentInteractTest {
             val paymentId = 1L
 
             val request = UpdatePaymentRequest(paymentId, false)
-            val orderIdCaptor = argumentCaptor<UUID>()
-            val paymentStatusCaptor = argumentCaptor<PaymentStatus>()
+            val dtoCaptor = argumentCaptor<PaymentStatusUpdateDTO>()
 
             val payment = Payment(
                 orderId = orderId,
@@ -85,16 +84,15 @@ class UpdatePaymentInteractTest {
             whenever(paymentGateway.updatePaymentStatus(any(), any())).thenReturn(payment)
 
             whenever(
-                orderServiceGateway.updatePaymentStatusOnOrderService(
-                    orderIdCaptor.capture(),
-                    paymentStatusCaptor.capture()
+                sqsGateway.updatePaymentStatusOnOrderService(
+                    dtoCaptor.capture()
                 )
             ).thenReturn(Unit)
 
             updatePaymentInteract.updatePaymentStatusByOrderId(request)
 
-            Assertions.assertEquals(orderId, orderIdCaptor.lastValue)
-            Assertions.assertEquals(PaymentStatus.PAYMENT_DENIED, paymentStatusCaptor.lastValue)
+            Assertions.assertEquals(orderId, dtoCaptor.lastValue.orderId)
+            Assertions.assertEquals(PaymentStatus.PAYMENT_DENIED.toString(), dtoCaptor.lastValue.status)
         }
 
     }

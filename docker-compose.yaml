@@ -9,8 +9,19 @@ services:
       POSTGRES_USER: root
       POSTGRES_DB: database
       POSTGRES_PASSWORD: root
+
+  localstack:
+    image: "localstack/localstack"
+    ports:
+      - "4566:4566"
+    volumes:
+      - "./scripts/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
+    environment:
+      SERVICES: sqs
+      AWS_DEFAULT_REGION: us-east-1
+
   app:
-    depends_on: [ db ]
+    depends_on: [ db, localstack ]
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,3 +29,5 @@ services:
       - "8080:8080"
     environment:
       DB_HOST: "jdbc:postgresql://db:5432/database"
+      AWS_BASE_URL: "http://localstack:4566"
+      PAYMENT_STATUS_UPDATED_QUEUE_URL: "http://localstack:4566/000000000000/payment-status-update"
