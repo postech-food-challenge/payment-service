@@ -2,6 +2,7 @@ package br.com.fiap.postech
 
 import br.com.fiap.postech.application.gateways.OrderServiceGateway
 import br.com.fiap.postech.application.gateways.PaymentGateway
+import br.com.fiap.postech.application.gateways.SqsGateway
 import br.com.fiap.postech.application.usecases.UpdatePaymentInteract
 import br.com.fiap.postech.domain.entities.Payment
 import br.com.fiap.postech.domain.entities.PaymentStatus
@@ -21,12 +22,14 @@ class UpdatePaymentInteractTest {
     lateinit var orderServiceGateway: OrderServiceGateway
     lateinit var paymentGateway: PaymentGateway
     lateinit var updatePaymentInteract: UpdatePaymentInteract
+    lateinit var sqsGateway: SqsGateway
 
     @BeforeEach
     fun setUp() {
         orderServiceGateway = mock {}
         paymentGateway = mock {}
-        updatePaymentInteract = UpdatePaymentInteract(paymentGateway, orderServiceGateway)
+        sqsGateway = mock {}
+        updatePaymentInteract = UpdatePaymentInteract(paymentGateway, orderServiceGateway,  sqsGateway)
     }
 
     @Test

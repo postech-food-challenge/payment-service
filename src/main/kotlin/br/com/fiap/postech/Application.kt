@@ -12,9 +12,8 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    val orderServiceURL = environment.config.property("order_service.host").getString()
     DatabaseSingleton.init(environment.config, log)
-    configureKoin(orderServiceURL)
+    configureKoin(environment.config)
     configureSerialization()
     configurePaymentController()
 }
