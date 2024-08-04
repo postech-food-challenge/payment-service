@@ -10,6 +10,7 @@ import br.com.fiap.postech.infrastructure.gateways.MercadoPagoClientGateway
 import br.com.fiap.postech.infrastructure.gateways.OrderServiceClientGateway
 import br.com.fiap.postech.infrastructure.gateways.PaymentRepositoryGateway
 import br.com.fiap.postech.infrastructure.gateways.SqsClientGateway
+import br.com.fiap.postech.infrastructure.listener.PaymentStatusUpdateListener
 import br.com.fiap.postech.infrastructure.persistance.repository.PaymentRepository
 import br.com.fiap.postech.infrastructure.persistance.repository.PaymentRepositoryImpl
 import io.ktor.client.*
@@ -63,6 +64,7 @@ private fun module(config: ApplicationConfig) = module {
     }
 
     single <SqsGateway> { SqsClientGateway(get(), awsConfiguration, paymentUpdateQueue) }
+    single { PaymentStatusUpdateListener(get(), awsConfiguration, paymentUpdateQueue) }
     single<MercadoPagoGateway> { MercadoPagoClientGateway() }
     single<PaymentRepository> { PaymentRepositoryImpl() }
     single<PaymentGateway> { PaymentRepositoryGateway(get()) }

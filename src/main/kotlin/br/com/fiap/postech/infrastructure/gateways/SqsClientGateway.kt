@@ -10,14 +10,13 @@ import software.amazon.awssdk.services.sqs.model.SendMessageRequest
 class SqsClientGateway (
     private val sqsClient: SqsClient,
     private val awsConfiguration: AwsConfiguration,
-    private val orderStatusQueueName: String,
+    private val paymentStatusUpdateQueueName: String,
 ) : SqsGateway {
     override suspend fun updatePaymentStatusOnOrderService(orderId: UUID, paymentStatus: PaymentStatus) {
         val message = mapOf("status" to paymentStatus.name, "orderId" to orderId.toString()).toString()
 
         val messageRequest = SendMessageRequest.builder()
-            .queueUrl(awsConfiguration.getQueueUrl(orderStatusQueueName))
-            //.queueUrl("http://localhost:4566/000000000000/payment-status-update")
+            .queueUrl(awsConfiguration.getQueueUrl(paymentStatusUpdateQueueName))
             .messageBody(message)
             .build()
 
