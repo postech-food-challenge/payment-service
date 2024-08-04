@@ -7,6 +7,7 @@ import br.com.fiap.postech.application.usecases.UpdatePaymentInteract
 import br.com.fiap.postech.domain.entities.Payment
 import br.com.fiap.postech.domain.entities.PaymentStatus
 import br.com.fiap.postech.infrastructure.controller.UpdatePaymentRequest
+import br.com.fiap.postech.infrastructure.gateways.dto.PaymentStatusUpdateDTO
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
@@ -39,7 +40,7 @@ class UpdatePaymentInteractTest {
             val paymentId = 1L
 
             val request = UpdatePaymentRequest(paymentId, true)
-            val orderIdCaptor = argumentCaptor<UUID>()
+            val dtoCaptor = argumentCaptor<PaymentStatusUpdateDTO>()
             val paymentStatusCaptor = argumentCaptor<PaymentStatus>()
 
             val payment = Payment(
@@ -52,15 +53,14 @@ class UpdatePaymentInteractTest {
 
             whenever(
                 sqsGateway.updatePaymentStatusOnOrderService(
-                    orderIdCaptor.capture(),
-                    paymentStatusCaptor.capture()
+                    dtoCaptor.capture()
                 )
-            ).thenReturn(Unit)
+            ).thenReturn(Unit
 
             updatePaymentInteract.updatePaymentStatusByOrderId(request)
 
-            Assertions.assertEquals(orderId, orderIdCaptor.lastValue)
-            Assertions.assertEquals(PaymentStatus.PAYMENT_CONFIRMED, paymentStatusCaptor.lastValue)
+            Assertions.assertEquals(orderId, dtoCaptor.lastValue.orderId)
+            Assertions.assertEquals(PaymentStatus.PAYMENT_CONFIRMED.toString(), dtoCaptor.lastValue.status)
         }
 
     }
