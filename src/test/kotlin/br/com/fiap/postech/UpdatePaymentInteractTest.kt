@@ -55,7 +55,7 @@ class UpdatePaymentInteractTest {
                 sqsGateway.updatePaymentStatusOnOrderService(
                     dtoCaptor.capture()
                 )
-            ).thenReturn(Unit
+            ).thenReturn(Unit)
 
             updatePaymentInteract.updatePaymentStatusByOrderId(request)
 
