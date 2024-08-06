@@ -48,7 +48,7 @@ class CreatePaymentInteractTest {
 
             val result = createPaymentInteract.createPayment(createPaymentRequest)
 
-            Assertions.assertEquals(12, result.price)
+            Assertions.assertEquals(12, result.totalAmount)
             Assertions.assertEquals(qrData, result.qrData)
             Assertions.assertEquals(orderId.toString(), result.orderId.toString())
         }

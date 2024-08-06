@@ -6,7 +6,7 @@ import java.util.*
 
 @Serializable
 data class CreatePaymentResponse(
-    val price: Int,
+    val totalAmount: Int,
     val qrData: String,
     @Serializable(with = UUIDSerializer::class)
     val orderId: UUID

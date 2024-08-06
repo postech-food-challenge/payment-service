@@ -11,4 +11,4 @@ data:
   DB_USERNAME: "$DB_USERNAME"
   DB_PASSWORD: "$DB_PASSWORD"
   ORDER_SERVICE_HOST: "https://tech-challenge.order.cluster.local:8080"
-  AWS_BASE_URL: "amazonaws.com"
+  PAYMENT_STATUS_UPDATED_QUEUE_URL: ""
